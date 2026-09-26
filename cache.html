@@ -1,8 +1,10 @@
 <html manifest="cache.appcache">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>13.02-13.52 · PS4 Exploit</title>
 <style>
-    /* Styling Tampilan Modern & Gaming Theme (Selaras dengan index.html) */
+    /* Styling Tampilan Modern & Gaming Theme (Selaras dengan cacheslopkit.html) */
     * {
         box-sizing: border-box;
         margin: 0;
@@ -16,7 +18,7 @@
         min-height: 100vh;
         display: flex;
         flex-direction: column;
-        justify-content: space-between;
+        justify-content: center;
         align-items: center;
         padding: 20px;
         text-align: center;
@@ -65,7 +67,7 @@
         box-shadow: inset 0 0 15px rgba(56, 189, 248, 0.1);
     }
 
-    /* msgs secara default berwarna putih (running) */
+    /* Teks notifikasi */
     #msgs {
         font-size: 22px;
         color: #ffffff; 
@@ -75,14 +77,8 @@
         transition: color 0.3s ease;
     }
 
-    /* Class untuk pesan sukses (warna hijau) */
     #msgs.success {
         color: #22c55e !important;
-    }
-
-    /* Class untuk pesan error (warna merah) */
-    #msgs.error {
-        color: #e50707 !important;
     }
 
     /* Styling Progress Bar */
@@ -103,137 +99,69 @@
         border-radius: 10px;
         transition: width 0.3s ease;
     }
-
-    .thanks-section {
-        margin-top: 30px;
-        font-size: 14px;
-        color: #94a3b8;
-        border-top: 1px solid #334155;
-        padding-top: 20px;
-    }
-
-    .thanks-section h3 {
-        color: #f00830;
-        font-size: 16px;
-        margin-bottom: 10px;
-    }
-
-    .credits-list {
-        display: flex;
-        flex-wrap: wrap;
-        justify-content: center;
-        gap: 8px;
-    }
-
-    .credit-item {
-        background: #334155;
-        color: #cbd5e1;
-        padding: 4px 10px;
-        border-radius: 6px;
-        font-size: 13px;
-        font-weight: 500;
-    }
-
-    footer {
-        margin-top: 20px;
-        font-size: 12px;
-        color: #64748b;
-    }
 </style>
-</head>
-<body>
-
 <script>
-history.replaceState(null,null,'index.html');
-var histlength=history.length;
+history.replaceState(null, null, 'index.html');
+var histlength = history.length;
 history.go(-histlength);
 
-// Helper function untuk pesan status
+// Helper function untuk memberikan warna teks berdasarkan status
 function setMsg(htmlContent, type) {
     var msgsElem = document.getElementById("msgs");
     if(!msgsElem) return;
     
-    msgsElem.className = ""; // Reset class
+    msgsElem.className = ""; 
     if (type === "success") {
         msgsElem.classList.add("success");
-    } else if (type === "error") {
-        msgsElem.classList.add("error");
     }
     msgsElem.innerHTML = htmlContent;
 }
 
-function DLProgress(e){
-    Percent = Math.round(e.loaded / e.total * 100);
-    setMsg("Menginstal Cache Offline: " + Percent + "%", "running");
+function DLProgress(e) {
+    var pct = Math.round(e.loaded / e.total * 100);
+    setMsg("Installing... " + pct + "%", "running");
     
-    // Update persentase progress bar
+    // Update progress bar
     var bar = document.getElementById("pbar");
     if (bar) {
-        bar.style.width = Percent + "%";
+        bar.style.width = pct + "%";
     }
 }
 
-function DisplayCacheProgress(){
-    setMsg("Cache Berhasil Diinstal", "success");
-    var bar = document.getElementById("pbar");
-    if (bar) {
-        bar.style.width = "100%";
-    }
-    // Mengarahkan kembali ke menu utama (index.html) setelah 1 detik
-    setTimeout(function(){
-        window.location.href = "index.html";
-    }, 1500);
+function DisplayCacheProgress() {
+    setTimeout(function () {
+        setMsg("Cache OK", "success");
+        var bar = document.getElementById("pbar");
+        if (bar) {
+            bar.style.width = "100%";
+        }
+    }, 2000);
+    setTimeout(function () {
+        location.reload();
+    }, 3000);
 }
-
 
 window.applicationCache.addEventListener("progress", DLProgress, false);
-window.applicationCache.oncached = function(e){ DisplayCacheProgress(); };
-window.applicationCache.onupdateready = function(e){ DisplayCacheProgress(); };
-window.applicationCache.onerror = function(e){
-    setMsg("Kesalahan Saat Menginstal Cache! - Bersihkan dan Buka Kembali Browser Anda ...", "error");
-};
+window.applicationCache.oncached = function (e) { DisplayCacheProgress(); };
+window.applicationCache.onupdateready = function (e) { DisplayCacheProgress(); };
 </script>
+</head>
+<body>
 
 <div class="container">
-    <!-- Container Logo Tengah Atas -->
     <div class="logo-container">
-        <img src="logo.png" alt="Logo MGstore" class="logo">
+        <img src="logo.png" alt="Logo" class="logo">
     </div>
 
-    <div class="header-title">Webkit By MG Store
+    <div class="header-title">13.02-13.52 · PS4 Exploit</div>
     
     <div class="status-card">
-        <!-- Teks default running berwarna putih -->
-        <div id="msgs">Memulai Instalasi Cache...</div>
+        <div id="msgs">Memulai...</div>
         <div class="progress-container">
             <div id="pbar" class="progress-bar"></div>
         </div>
     </div>
-
-    <div class="thanks-section">
-        <h3>Special Thanks to:</h3>
-        <div class="credits-list">
-            <span class="credit-item">GamerHack93</span>
-            <span class="credit-item">sleirsgoevy</span>
-            <span class="credit-item">TheFlow</span>
-            <span class="credit-item">Flatz</span>
-            <span class="credit-item">Egycnq</span>
-            <span class="credit-item">Jordy</span>
-            <span class="credit-item">Sonic-Iso</span>
-            <span class="credit-item">Abc</span>
-            <span class="credit-item">Prb29327239</span>
-            <span class="credit-item">Feyzee61</span>
-            <span class="credit-item">AlAzif</span>
-            <span class="credit-item">ChendoChap</span>
-            <span class="credit-item">Kameleonre_</span>
-            <span class="credit-item">SiSTR0</span>
-        </div>
-    </div>
 </div>
-
-<footer>
-    <p>&copy; MGstore Webkit Host</p>
-</footer>
 
 </body>
 </html>
